@@ -20,7 +20,7 @@ end
 end
 
 @kwdef struct SimulatorSession <: AbstractSession
-    responses::Channel = Channel{AbstractOperation}(16)
+    responses::Channel = Channel{AbstractResponse}(16)
     state::SimulatorState = SimulatorState(market="BTCUSD",
                                            price=60_000.00,
                                            position=missing,

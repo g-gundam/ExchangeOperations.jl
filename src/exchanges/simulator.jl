@@ -1,8 +1,8 @@
 
 @kwdef mutable struct SimulatorPosition
     direction::XO_POSITION_TYPES
-    quantity::Float64
-    price::Float64
+    quantity::Union{Missing,Float64}
+    price::Unioni{Missing,}Float64}
 end
 
 @kwdef mutable struct SimulatorFill

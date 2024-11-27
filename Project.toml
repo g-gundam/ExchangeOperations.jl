@@ -8,12 +8,14 @@ Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
 DocStringExtensions = "ffbed154-4ef7-542d-bbb7-c09d3a79fcae"
 HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
 NanoDates = "46f1a544-deae-4307-8689-c12aa3c955c6"
+Web3 = "0881af41-a624-557c-96ff-9a730c8d7287"
 
 [compat]
 Dates = "1.11.0"
 DocStringExtensions = "0.9.3"
 HTTP = "1.10.11"
 NanoDates = "1.0.3"
+Web3 = "0.2.5"
 julia = "1.6.7"
 
 [extras]

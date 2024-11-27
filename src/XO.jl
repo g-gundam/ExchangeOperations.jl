@@ -41,5 +41,6 @@ end
 export send
 
 include("exchanges/simulator.jl")
+include("exchanges/pancakeswap.jl")
 
 end

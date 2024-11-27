@@ -10,8 +10,9 @@ abstract type AbstractOperation end
 abstract type AbstractResponse end 
 
 @enum XO_POSITION_TYPES begin
-    XO_LONG = 0
-    XO_SHORT = 1
+    XO_NEUTRAL = 0
+    XO_LONG = 1
+    XO_SHORT = 2
 end
 
 export AbstractExchangeState
@@ -19,6 +20,7 @@ export AbstractSession
 export AbstractOperation
 export AbstractResponse
 export XO_POSITION_TYPES
+export XO_NEUTRAL
 export XO_LONG
 export XO_SHORT
 

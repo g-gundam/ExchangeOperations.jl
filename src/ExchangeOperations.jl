@@ -1,4 +1,4 @@
-module XO
+module ExchangeOperations
 
 using DocStringExtensions
 using Dates
@@ -9,20 +9,20 @@ abstract type AbstractSession end
 abstract type AbstractOperation end
 abstract type AbstractResponse end 
 
-@enum XO_POSITION_TYPES begin
-    XO_NEUTRAL = 0
-    XO_LONG = 1
-    XO_SHORT = 2
+@enum POSITION_TYPES begin
+    NEUTRAL = 0
+    LONG = 1
+    SHORT = 2
 end
 
 export AbstractExchangeState
 export AbstractSession
 export AbstractOperation
 export AbstractResponse
-export XO_POSITION_TYPES
-export XO_NEUTRAL
-export XO_LONG
-export XO_SHORT
+export POSITION_TYPES
+export NEUTRAL
+export LONG
+export SHORT
 
 function send(x::AbstractSession, op::AbstractOperation)
     @warn "Unimplemented"

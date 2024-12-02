@@ -1,14 +1,14 @@
 ```@meta
-CurrentModule = XO
+CurrentModule = ExchangeOperations
 ```
 
-# XO
+# ExchangeOperations
 
-Documentation for [XO](https://github.com/g-gundam/XO.jl).
+Documentation for [ExchangeOperations](https://github.com/g-gundam/ExchangeOperations.jl).
 
 ```@index
 ```
 
 ```@autodocs
-Modules = [XO]
+Modules = [ExchangeOperations]
 ```

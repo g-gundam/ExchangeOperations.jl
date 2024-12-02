@@ -1,13 +1,13 @@
 
 @kwdef mutable struct SimulatorPosition
-    direction::XO_POSITION_TYPES
+    direction::POSITION_TYPES
     quantity::Union{Missing,Float64}
     price::Union{Missing,Float64}
 end
 
 @kwdef mutable struct SimulatorFill
     ts::NanoDate
-    direction::XO_POSITION_TYPES
+    direction::POSITION_TYPES
     quantity::Float64
     price::Float64
 end
@@ -76,7 +76,7 @@ function send(s::SimulatorSession, buy::SimulatorMarketBuy)
     if ismissing(s.state.position)
         # Create new position
         # TODO: Make sure we can afford to long.
-        new_position = SimulatorPosition(direction=XO_LONG,
+        new_position = SimulatorPosition(direction=LONG,
                                          quantity=buy.quantity,
                                          price=s.state.price)
         s.state.position = new_position
@@ -84,7 +84,7 @@ function send(s::SimulatorSession, buy::SimulatorMarketBuy)
         put!(s.responses, fill)
     else
         old_position = s.state.position
-        if old_position.direction == XO_LONG
+        if old_position.direction == LONG
             # Increase long position
             @info "increase long"
             # adjust quanitty and entry price
@@ -122,7 +122,7 @@ function send(s::SimulatorSession, sell::SimulatorMarketSell)
     if ismissing(s.state.position)
         # Create new position
         # TODO: Make sure we can afford to short.
-        new_position = SimulatorPosition(direction=XO_SHORT,
+        new_position = SimulatorPosition(direction=SHORT,
                                 quantity=sell.quantity,
                                 price=s.state.price)
         s.state.position = new_position
@@ -130,7 +130,7 @@ function send(s::SimulatorSession, sell::SimulatorMarketSell)
         put!(s.responses, fill)
     else
         old_position = s.state.position
-        if old_position.direction == XO_SHORT
+        if old_position.direction == SHORT
             # Increase position
             @info "increase short"
             new_quantity = old_position.quantity + sell.quantity

@@ -9,20 +9,13 @@ abstract type AbstractSession end
 abstract type AbstractOperation end
 abstract type AbstractResponse end 
 
-@enum POSITION_TYPES begin
-    NEUTRAL = 0
-    LONG = 1
-    SHORT = 2
-end
+@enum TradeDirection Neutral Long Short
 
 export AbstractExchangeState
 export AbstractSession
 export AbstractOperation
 export AbstractResponse
-export POSITION_TYPES
-export NEUTRAL
-export LONG
-export SHORT
+export TradeDirection
 
 function send(x::AbstractSession, op::AbstractOperation)
     @warn "Unimplemented"

@@ -1,13 +1,13 @@
 
 @kwdef mutable struct SimulatorPosition
-    direction::POSITION_TYPES
+    direction::TradeDirection
     quantity::Union{Missing,Float64}
     price::Union{Missing,Float64}
 end
 
 @kwdef mutable struct SimulatorFill
     ts::NanoDate
-    direction::POSITION_TYPES
+    direction::TradeDirection
     quantity::Float64
     price::Float64
 end
@@ -76,7 +76,7 @@ function send(s::SimulatorSession, buy::SimulatorMarketBuy)
     if ismissing(s.state.position)
         # Create new position
         # TODO: Make sure we can afford to long.
-        new_position = SimulatorPosition(direction=LONG,
+        new_position = SimulatorPosition(direction=TradeDirection.Long,
                                          quantity=buy.quantity,
                                          price=s.state.price)
         s.state.position = new_position
@@ -84,7 +84,7 @@ function send(s::SimulatorSession, buy::SimulatorMarketBuy)
         put!(s.responses, fill)
     else
         old_position = s.state.position
-        if old_position.direction == LONG
+        if old_position.direction == TradeDirection.Long
             # Increase long position
             @info "increase long"
             # adjust quanitty and entry price
@@ -122,7 +122,7 @@ function send(s::SimulatorSession, sell::SimulatorMarketSell)
     if ismissing(s.state.position)
         # Create new position
         # TODO: Make sure we can afford to short.
-        new_position = SimulatorPosition(direction=SHORT,
+        new_position = SimulatorPosition(direction=TradeDirection.Short,
                                 quantity=sell.quantity,
                                 price=s.state.price)
         s.state.position = new_position
@@ -130,7 +130,7 @@ function send(s::SimulatorSession, sell::SimulatorMarketSell)
         put!(s.responses, fill)
     else
         old_position = s.state.position
-        if old_position.direction == SHORT
+        if old_position.direction == TradeDirection.Short
             # Increase position
             @info "increase short"
             new_quantity = old_position.quantity + sell.quantity

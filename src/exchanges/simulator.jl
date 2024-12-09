@@ -1,13 +1,13 @@
 
 @kwdef mutable struct SimulatorPosition
-    direction::TradeDirection
+    direction::TradeDirection.T
     quantity::Union{Missing,Float64}
     price::Union{Missing,Float64}
 end
 
 @kwdef mutable struct SimulatorFill
     ts::NanoDate
-    direction::TradeDirection
+    direction::TradeDirection.T
     quantity::Float64
     price::Float64
 end
@@ -72,7 +72,7 @@ export SimulatorUpdateStopFill
 
 Send a market buy order to the simulator.
 """
-function send(s::SimulatorSession, buy::SimulatorMarketBuy)
+function send!(s::SimulatorSession, buy::SimulatorMarketBuy)
     if ismissing(s.state.position)
         # Create new position
         # TODO: Make sure we can afford to long.
@@ -118,7 +118,7 @@ end
 
 Send a market sell order to the simulator.
 """
-function send(s::SimulatorSession, sell::SimulatorMarketSell)
+function send!(s::SimulatorSession, sell::SimulatorMarketSell)
     if ismissing(s.state.position)
         # Create new position
         # TODO: Make sure we can afford to short.
@@ -164,7 +164,7 @@ end
 
 This is a catchall send method to warn about unimplemented simulator operations.
 """
-function send(x::SimulatorSession, op::AbstractOperation)
+function send!(x::SimulatorSession, op::AbstractOperation)
     message = "A send method for $(typeof(op)) has not been written yet."
     @warn "unimplemented" message
     x

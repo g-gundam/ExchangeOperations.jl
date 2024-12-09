@@ -3,13 +3,14 @@ module ExchangeOperations
 using DocStringExtensions
 using Dates
 using NanoDates
+using EnumX
 
 abstract type AbstractExchangeState end
 abstract type AbstractSession end
 abstract type AbstractOperation end
 abstract type AbstractResponse end 
 
-@enum TradeDirection Neutral Long Short
+@enumx TradeDirection Neutral Long Short
 
 export AbstractExchangeState
 export AbstractSession
@@ -17,7 +18,7 @@ export AbstractOperation
 export AbstractResponse
 export TradeDirection
 
-function send(x::AbstractSession, op::AbstractOperation)
+function send!(x::AbstractSession, op::AbstractOperation)
     @warn "Unimplemented"
 end
 

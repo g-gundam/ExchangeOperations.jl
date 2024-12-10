@@ -4,13 +4,6 @@
     price::Union{Missing,Float64}
 end
 
-@kwdef mutable struct SimulatorFill
-    ts::NanoDate
-    direction::TradeDirection.T
-    amount::Float64
-    price::Float64
-end
-
 @kwdef mutable struct SimulatorState <: AbstractExchangeState
     market::String
     ts::Union{DateTime,Missing}
@@ -59,7 +52,6 @@ end
 end
 
 export SimulatorPosition
-export SimulatorFill
 export SimulatorState
 export SimulatorSession
 

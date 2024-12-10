@@ -93,6 +93,7 @@ function send!(s::SimulatorSession, buy::SimulatorMarketBuy)
         s.state.position = new_position
         fill = SimulatorMarketBuyFill(;price=s.state.price, amount=buy.amount)
         put!(s.responses, fill)
+        push!(s.order_log, fill)
     else
         old_position = s.state.position
         if old_position.direction == TradeDirection.Long
@@ -106,6 +107,7 @@ function send!(s::SimulatorSession, buy::SimulatorMarketBuy)
             s.state.position.amount = new_amount
             fill = SimulatorMarketBuyFill(;price=s.state.price, amount=buy.amount)
             put!(s.responses, fill)
+            push!(s.order_log, fill)
         else
             # Decrease short position
             diff = -1 * profit(s.state.position.price, s.state.price, buy.amount)
@@ -117,6 +119,7 @@ function send!(s::SimulatorSession, buy::SimulatorMarketBuy)
             end
             fill = SimulatorMarketBuyFill(;price=s.state.price, amount=buy.amount)
             put!(s.responses, fill)
+            push!(s.order_log, fill)
             # TODO: Handle the case where buy.amount > old_position.amount too.
             # This should close the short, calculate pnl, and open a long.
         end
@@ -138,6 +141,7 @@ function send!(s::SimulatorSession, sell::SimulatorMarketSell)
         s.state.position = new_position
         fill = SimulatorMarketSellFill(;price=s.state.price, amount=sell.amount)
         put!(s.responses, fill)
+        push!(s.order_log, fill)
     else
         old_position = s.state.position
         if old_position.direction == TradeDirection.Short
@@ -150,6 +154,7 @@ function send!(s::SimulatorSession, sell::SimulatorMarketSell)
             s.state.position.amount = new_amount
             fill = SimulatorMarketSellFill(;price=s.state.price, amount=sell.amount)
             put!(s.responses, fill)
+            push!(s.order_log, fill)
         else
             # Decrease position
             diff = profit(s.state.position.price, s.state.price, sell.amount)
@@ -164,6 +169,7 @@ function send!(s::SimulatorSession, sell::SimulatorMarketSell)
             end
             fill = SimulatorMarketSellFill(;price=s.state.price, amount=sell.amount)
             put!(s.responses, fill)
+            push!(s.order_log, fill)
         end
     end
     return s

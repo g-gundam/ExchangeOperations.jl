@@ -27,6 +27,7 @@ end
 end
 
 @kwdef struct SimulatorMarketBuyFill <: AbstractResponse
+    ts::DateTime
     price::Float64
     amount::Float64
 end
@@ -36,17 +37,7 @@ end
 end
 
 @kwdef struct SimulatorMarketSellFill <: AbstractResponse
-    price::Float64
-    amount::Float64
-end
-
-@kwdef struct SimulatorUpdateStop <: AbstractOperation
-    order_id::AbstractString
-    price::Float64
-end
-
-@kwdef struct SimulatorUpdateStopFill <: AbstractResponse
-    order_id::AbstractString
+    ts::DateTime
     price::Float64
     amount::Float64
 end
@@ -59,8 +50,6 @@ export SimulatorMarketBuy
 export SimulatorMarketBuyFill
 export SimulatorMarketSell
 export SimulatorMarketSellFill
-export SimulatorUpdateStop
-export SimulatorUpdateStopFill
 
 """$(TYPEDSIGNATURES)
 

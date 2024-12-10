@@ -1,6 +1,2 @@
-using XO
-using Test
-
-@testset "XO.jl" begin
-    # Write your tests here.
-end
+using TidyTest
+@run_tests verbose=true

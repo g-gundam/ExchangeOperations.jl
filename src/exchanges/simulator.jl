@@ -1,5 +1,3 @@
-using DataFrames
-
 @kwdef mutable struct SimulatorPosition
     direction::TradeDirection.T
     amount::Union{Missing,Float64}
@@ -28,7 +26,7 @@ end
                                            price=60_000.00,
                                            position=missing,
                                            total=500_000.00)
-    order_log::DataFrame = DataFrame(ts=Vector{DateTime}(), type=Vector{Symbol}(), direction=Vector{Symbol}(), price=Vector{Float64}(), amount=Vector{Float64}())
+    order_log::Vector{AbstractResponse} = []
 end
 
 @kwdef struct SimulatorMarketBuy <: AbstractOperation

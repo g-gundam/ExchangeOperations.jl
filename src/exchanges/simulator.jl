@@ -14,6 +14,7 @@ end
 
 @kwdef mutable struct SimulatorState <: AbstractExchangeState
     market::String
+    ts::Union{DateTime,Missing}
     price::Float64
     position::Union{SimulatorPosition,Missing}
     total::Float64

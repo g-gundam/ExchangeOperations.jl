@@ -72,7 +72,7 @@ function send!(s::SimulatorSession, buy::SimulatorMarketBuy)
                                          amount=buy.amount,
                                          price=s.state.price)
         s.state.position = new_position
-        fill = SimulatorMarketBuyFill(;price=s.state.price, amount=buy.amount)
+        fill = SimulatorMarketBuyFill(;ts=s.state.ts, price=s.state.price, amount=buy.amount)
         put!(s.responses, fill)
         push!(s.order_log, fill)
     else
@@ -86,7 +86,7 @@ function send!(s::SimulatorSession, buy::SimulatorMarketBuy)
             new_price = (old_position.price * ratio_a) + (s.state.price * ratio_b)
             s.state.position.price = new_price # mutation
             s.state.position.amount = new_amount
-            fill = SimulatorMarketBuyFill(;price=s.state.price, amount=buy.amount)
+            fill = SimulatorMarketBuyFill(;ts=s.state.ts, price=s.state.price, amount=buy.amount)
             put!(s.responses, fill)
             push!(s.order_log, fill)
         else
@@ -98,7 +98,7 @@ function send!(s::SimulatorSession, buy::SimulatorMarketBuy)
             else
                 s.state.position.amount -= buy.amount
             end
-            fill = SimulatorMarketBuyFill(;price=s.state.price, amount=buy.amount)
+            fill = SimulatorMarketBuyFill(;ts=s.state.ts, price=s.state.price, amount=buy.amount)
             put!(s.responses, fill)
             push!(s.order_log, fill)
             # TODO: Handle the case where buy.amount > old_position.amount too.
@@ -120,7 +120,7 @@ function send!(s::SimulatorSession, sell::SimulatorMarketSell)
                                 amount=sell.amount,
                                 price=s.state.price)
         s.state.position = new_position
-        fill = SimulatorMarketSellFill(;price=s.state.price, amount=sell.amount)
+        fill = SimulatorMarketSellFill(;ts=s.state.ts, price=s.state.price, amount=sell.amount)
         put!(s.responses, fill)
         push!(s.order_log, fill)
     else
@@ -133,7 +133,7 @@ function send!(s::SimulatorSession, sell::SimulatorMarketSell)
             new_price = (old_position.price * ratio_a) + (s.state.price * ratio_b)
             s.state.position.price = new_price # mutation
             s.state.position.amount = new_amount
-            fill = SimulatorMarketSellFill(;price=s.state.price, amount=sell.amount)
+            fill = SimulatorMarketSellFill(;ts=s.state.ts, price=s.state.price, amount=sell.amount)
             put!(s.responses, fill)
             push!(s.order_log, fill)
         else
@@ -148,7 +148,7 @@ function send!(s::SimulatorSession, sell::SimulatorMarketSell)
                 # decrease position size
                 s.state.position.amount -= sell.amount
             end
-            fill = SimulatorMarketSellFill(;price=s.state.price, amount=sell.amount)
+            fill = SimulatorMarketSellFill(;ts=s.state.ts, price=s.state.price, amount=sell.amount)
             put!(s.responses, fill)
             push!(s.order_log, fill)
         end

@@ -70,6 +70,14 @@ export SimulatorUpdateStopFill
 
 """$(TYPEDSIGNATURES)
 
+Update the current price of the asset in the simulator session.
+"""
+function update!(s::SimulatorSession, price::Float64)
+    s.state.price = price
+end
+
+"""$(TYPEDSIGNATURES)
+
 Send a market buy order to the simulator.
 """
 function send!(s::SimulatorSession, buy::SimulatorMarketBuy)

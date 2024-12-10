@@ -2,14 +2,14 @@ using DataFrames
 
 @kwdef mutable struct SimulatorPosition
     direction::TradeDirection.T
-    quantity::Union{Missing,Float64}
+    amount::Union{Missing,Float64}
     price::Union{Missing,Float64}
 end
 
 @kwdef mutable struct SimulatorFill
     ts::NanoDate
     direction::TradeDirection.T
-    quantity::Float64
+    amount::Float64
     price::Float64
 end
 
@@ -32,21 +32,21 @@ end
 end
 
 @kwdef struct SimulatorMarketBuy <: AbstractOperation
-    quantity::Float64
+    amount::Float64
 end
 
 @kwdef struct SimulatorMarketBuyFill <: AbstractResponse
     price::Float64
-    quantity::Float64
+    amount::Float64
 end
 
 @kwdef struct SimulatorMarketSell <: AbstractOperation
-    quantity::Float64
+    amount::Float64
 end
 
 @kwdef struct SimulatorMarketSellFill <: AbstractResponse
     price::Float64
-    quantity::Float64
+    amount::Float64
 end
 
 @kwdef struct SimulatorUpdateStop <: AbstractOperation
@@ -57,7 +57,7 @@ end
 @kwdef struct SimulatorUpdateStopFill <: AbstractResponse
     order_id::AbstractString
     price::Float64
-    quantity::Float64
+    amount::Float64
 end
 
 export SimulatorPosition
@@ -90,37 +90,36 @@ function send!(s::SimulatorSession, buy::SimulatorMarketBuy)
         # Create new position
         # TODO: Make sure we can afford to long.
         new_position = SimulatorPosition(direction=TradeDirection.Long,
-                                         quantity=buy.quantity,
+                                         amount=buy.amount,
                                          price=s.state.price)
         s.state.position = new_position
-        fill = SimulatorMarketBuyFill(;price=s.state.price, quantity=buy.quantity)
+        fill = SimulatorMarketBuyFill(;price=s.state.price, amount=buy.amount)
         put!(s.responses, fill)
     else
         old_position = s.state.position
         if old_position.direction == TradeDirection.Long
             # Increase long position
-            @info "increase long"
             # adjust quanitty and entry price
-            new_quantity = old_position.quantity + buy.quantity
-            ratio_a = old_position.quantity / new_quantity
-            ratio_b = buy.quantity / new_quantity
+            new_amount = old_position.amount + buy.amount
+            ratio_a = old_position.amount / new_amount
+            ratio_b = buy.amount / new_amount
             new_price = (old_position.price * ratio_a) + (s.state.price * ratio_b)
             s.state.position.price = new_price # mutation
-            s.state.position.quantity = new_quantity
-            fill = SimulatorMarketBuyFill(;price=s.state.price, quantity=buy.quantity)
+            s.state.position.amount = new_amount
+            fill = SimulatorMarketBuyFill(;price=s.state.price, amount=buy.amount)
             put!(s.responses, fill)
         else
             # Decrease short position
-            diff = -1 * profit(s.state.position.price, s.state.price, buy.quantity)
+            diff = -1 * profit(s.state.position.price, s.state.price, buy.amount)
             s.state.total += diff
-            if s.state.position.quantity == buy.quantity
+            if s.state.position.amount == buy.amount
                 s.state.position = missing
             else
-                s.state.position.quantity -= buy.quantity
+                s.state.position.amount -= buy.amount
             end
-            fill = SimulatorMarketBuyFill(;price=s.state.price, quantity=buy.quantity)
+            fill = SimulatorMarketBuyFill(;price=s.state.price, amount=buy.amount)
             put!(s.responses, fill)
-            # TODO: Handle the case where buy.quantity > old_position.quantity too.
+            # TODO: Handle the case where buy.amount > old_position.amount too.
             # This should close the short, calculate pnl, and open a long.
         end
     end
@@ -136,37 +135,36 @@ function send!(s::SimulatorSession, sell::SimulatorMarketSell)
         # Create new position
         # TODO: Make sure we can afford to short.
         new_position = SimulatorPosition(direction=TradeDirection.Short,
-                                quantity=sell.quantity,
+                                amount=sell.amount,
                                 price=s.state.price)
         s.state.position = new_position
-        fill = SimulatorMarketSellFill(;price=s.state.price, quantity=sell.quantity)
+        fill = SimulatorMarketSellFill(;price=s.state.price, amount=sell.amount)
         put!(s.responses, fill)
     else
         old_position = s.state.position
         if old_position.direction == TradeDirection.Short
             # Increase position
-            @info "increase short"
-            new_quantity = old_position.quantity + sell.quantity
-            ratio_a = old_position.quantity / new_quantity
-            ratio_b = sell.quantity / new_quantity
+            new_amount = old_position.amount + sell.amount
+            ratio_a = old_position.amount / new_amount
+            ratio_b = sell.amount / new_amount
             new_price = (old_position.price * ratio_a) + (s.state.price * ratio_b)
             s.state.position.price = new_price # mutation
-            s.state.position.quantity = new_quantity
-            fill = SimulatorMarketSellFill(;price=s.state.price, quantity=sell.quantity)
+            s.state.position.amount = new_amount
+            fill = SimulatorMarketSellFill(;price=s.state.price, amount=sell.amount)
             put!(s.responses, fill)
         else
             # Decrease position
-            diff = profit(s.state.position.price, s.state.price, sell.quantity)
+            diff = profit(s.state.position.price, s.state.price, sell.amount)
             # Update structs
             s.state.total += diff
-            if s.state.position.quantity == sell.quantity
+            if s.state.position.amount == sell.amount
                 # completely close position by removing it
                 s.state.position = missing
             else
                 # decrease position size
-                s.state.position.quantity -= sell.quantity
+                s.state.position.amount -= sell.amount
             end
-            fill = SimulatorMarketSellFill(;price=s.state.price, quantity=sell.quantity)
+            fill = SimulatorMarketSellFill(;price=s.state.price, amount=sell.amount)
             put!(s.responses, fill)
         end
     end

@@ -22,6 +22,10 @@ function send!(x::AbstractSession, op::AbstractOperation)
     @warn "Unimplemented"
 end
 
+function update!(x::AbstractSession, price::Float64)
+    @warn "Unimplemented"
+end
+
 """$(TYPEDSIGNATURES)
 
 This is a utility function to help calculate profit or loss.
@@ -32,7 +36,7 @@ function profit(a::Number, b::Number, q::Number)
     profit
 end
 
-export send
+export send!
 
 include("exchanges/simulator.jl")
 include("exchanges/pancakeswap.jl")

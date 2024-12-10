@@ -74,9 +74,10 @@ export SimulatorUpdateStopFill
 
 """$(TYPEDSIGNATURES)
 
-Update the current price of the asset in the simulator session.
+Update the current time and current price of the asset in the simulator session.
 """
-function update!(s::SimulatorSession, price::Float64)
+function update!(s::SimulatorSession, ts::DateTime, price::Float64)
+    s.state.ts = ts
     s.state.price = price
 end
 

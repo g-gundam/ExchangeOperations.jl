@@ -43,28 +43,28 @@ end
     amount::Float64
 end
 
-@kwdef struct SimulatorStopMarketBuy <: AbstractOperation
-    ts::DateTime
+@kwdef mutable struct SimulatorStopMarketBuy <: AbstractOperation
+    id::UUID = uuid4(RNG)
     price::Float64
     amount::Float64
 end
+# TODO: Ack
 
-@kwdef struct SimulatorStopMarketBuyFill <: AbstractResponse
-    ts::DateTime
+@kwdef mutable struct SimulatorStopMarketSell <: AbstractOperation
+    id::UUID = uuid4(RNG)
     price::Float64
     amount::Float64
 end
+# TODO: Ack
 
-@kwdef struct SimulatorStopMarketSell <: AbstractOperation
-    ts::DateTime
-    price::Float64
-    amount::Float64
+@kwdef struct SimulatorStopMarketUpdate <: AbstractOperation
+    id::UUID
+    price::Union{Float64,Missing} = missing
+    amount::Union{Float64,Missing} = missing
 end
 
-@kwdef struct SimulatorStopMarketSellFill <: AbstractResponse
-    ts::DateTime
-    price::Float64
-    amount::Float64
+@kwdef struct SimulatorStopMarketCancel <: AbstractOperation
+    id::UUID
 end
 
 export SimulatorPosition
@@ -80,9 +80,15 @@ export SimulatorMarketSellFill
 
 Update the current time and current price of the asset in the simulator session.
 """
-function update!(s::SimulatorSession, ts::DateTime, price::Float64)
+function update!(s::SimulatorSession, ts::DateTime, next_price::Float64)
+    current_price = s.state.price
+    # mutate {
     s.state.ts = ts
-    s.state.price = price
+    s.state.price = next_price
+    # }
+    for order in s.stops
+        trigger!(s, order, current_price, next_price)
+    end
 end
 
 """$(TYPEDSIGNATURES)
@@ -181,12 +187,64 @@ function send!(s::SimulatorSession, sell::SimulatorMarketSell)
     return s
 end
 
+# buy gets triggered when price rises to the stop.price
+function trigger!(s::SimulatorSession, stopmarketbuy::SimulatorStopMarketBuy, current_price::Float64, next_price::Float64)
+    if current_price < stopmarketbuy.price && next_price >= stopmarketbuy.price
+        marketbuy = SimulatorMarketBuy(amount=stopmarketbuy.amount)
+        send!(s, marketbuy)
+    end
+    return s
+end
+
+# sell gets triggered when price lowers to the stop.price
+function trigger!(s::SimulatorSession, stopmarketsell::SimulatorStopMarketSell, current_price::Float64, next_price::Float64)
+    if current_price > stopmarketsell.price && next_price <= stopmarketsell.price
+        marketsell = SimulatorMarketSell(amount=stopmarketsell.amount)
+        send!(s, marketsell)
+    end
+    return s
+end
+
+function send!(s::SimulatorSession, stopmarketbuy::SimulatorStopMarketBuy)
+    # XXX: What are some sanity checks I should do first?
+    push!(s.stops, stopmarketbuy)
+    return s
+end
+
+function send!(s::SimulatorSession, stopmarketsell::SimulatorStopMarketSell)
+    push!(s.stops, stopmarketsell)
+    return s
+end
+
+function send!(s::SimulatorSession, stopmarketupdate::SimulatorStopMarketUpdate)
+    id = stopmarketupdate.id
+    order = findfirst(n -> n.id == id, s.stops)
+    if ismissing(order)
+        @warn :missing
+    else
+        # XXX: What if this causes the stop to be triggered?
+        if !ismissing(stopmarketupdate.price)
+            s.stops[order].price = stopmarketupdate.price
+        end
+        if !ismissing(stopmarketupdate.amount)
+            s.stops[order].amount = stopmarketupdate.amount
+        end
+    end
+    return s
+end
+
+function send!(s::SimulatorSession, stopmarketcancel::SimulatorStopMarketCancel)
+    id = stopmarketcancel.id
+    filter!(n -> n.id != id, s.stops)
+    return s
+end
+
 """$(TYPEDSIGNATURES)
 
 This is a catchall send method to warn about unimplemented simulator operations.
 """
 function send!(x::SimulatorSession, op::AbstractOperation)
-    message = "A send method for $(typeof(op)) has not been written yet."
+    message = "A send! method for $(typeof(op)) has not been written yet."
     @warn "unimplemented" message
     x
 end

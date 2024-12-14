@@ -4,6 +4,10 @@ using DocStringExtensions
 using Dates
 using NanoDates
 using EnumX
+using Random
+using UUIDs
+
+const RNG = Random.Xoshiro()
 
 abstract type AbstractExchangeState end
 abstract type AbstractSession end

@@ -19,6 +19,7 @@ end
                                            price=60_000.00,
                                            position=missing,
                                            total=500_000.00)
+    stops::Vector{AbstractOperation} = []
     order_log::Vector{AbstractResponse} = []
 end
 
@@ -37,6 +38,30 @@ end
 end
 
 @kwdef struct SimulatorMarketSellFill <: AbstractResponse
+    ts::DateTime
+    price::Float64
+    amount::Float64
+end
+
+@kwdef struct SimulatorStopMarketBuy <: AbstractOperation
+    ts::DateTime
+    price::Float64
+    amount::Float64
+end
+
+@kwdef struct SimulatorStopMarketBuyFill <: AbstractResponse
+    ts::DateTime
+    price::Float64
+    amount::Float64
+end
+
+@kwdef struct SimulatorStopMarketSell <: AbstractOperation
+    ts::DateTime
+    price::Float64
+    amount::Float64
+end
+
+@kwdef struct SimulatorStopMarketSellFill <: AbstractResponse
     ts::DateTime
     price::Float64
     amount::Float64

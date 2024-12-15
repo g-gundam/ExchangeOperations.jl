@@ -6,6 +6,13 @@ Exchange Operations as Data
 [![Build Status](https://github.com/g-gundam/XO.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/g-gundam/ExchangeOperations.jl/actions/workflows/CI.yml?query=branch%3Amain)
 [![Coverage](https://codecov.io/gh/g-gundam/XO.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/g-gundam/ExchangeOperations.jl)
 
+## What you'll get:
+
+- [x] A simple exchange simulator for backtesting
+- [ ] An exchange driver for PancakeSwap
+
+Maybe more exchange drivers will be implemented if this experiment works out and other people want it.
+
 ## This is an experiment in API design.
 
 - The main idea is to use structs to express the actions that are possible through an Exchange's API.

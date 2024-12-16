@@ -26,10 +26,6 @@ function send!(x::AbstractSession, op::AbstractOperation)
     @warn "Unimplemented"
 end
 
-function update!(x::AbstractSession, price::Float64)
-    @warn "Unimplemented"
-end
-
 """$(TYPEDSIGNATURES)
 
 This is a utility function to help calculate profit or loss.

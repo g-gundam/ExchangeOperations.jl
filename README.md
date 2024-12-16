@@ -33,7 +33,7 @@ julia> session.state.price # current price of BTCUSD
 
 julia> XO.send!(session, XO.SimulatorMarketBuy(1.0)) # buy 1 BTC
 
-julia> XO.update!(session, now(), 100000.0) # pump the price of BTCUSD to 100000.0 in the simulator
+julia> XO.update!(session, now(), 100000.0) # pump the price of BTCUSD to 100000.0
 
 julia> XO.send!(session, XO.SimulatorMarketSell(0.5)) # sell 0.5 BTC
 

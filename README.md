@@ -49,3 +49,7 @@ using exchange-specific types for the sessions and operations.  The
 first real exchange interface I plan to implement is for PancakeSwap,
 but as of v0.0.1, all you get is the super simple exchange simulator
 that only knows market orders.
+
+## This is experimental.
+
+Don't take anything here too seriously.

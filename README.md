@@ -6,25 +6,46 @@ Exchange Operations as Data
 [![Build Status](https://github.com/g-gundam/XO.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/g-gundam/ExchangeOperations.jl/actions/workflows/CI.yml?query=branch%3Amain)
 [![Coverage](https://codecov.io/gh/g-gundam/XO.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/g-gundam/ExchangeOperations.jl)
 
-## What you'll get:
+## Warning
 
-- [x] A simple exchange simulator for backtesting
-- [ ] An exchange driver for PancakeSwap
+- The main reason for registering this is to make it available to public Pluto notebooks that I might write in the near future.
+- If you want a sane and normal client library for interacting with cryptocurrency exchanges, I recommend [bhftbootcamp/CryptoExchangeAPIs.jl](https://github.com/bhftbootcamp/CryptoExchangeAPIs.jl).
 
-Maybe more exchange drivers will be implemented if this experiment works out and other people want it.
+## What is this?
 
-## This is an experiment in API design.
+- ExchangeOperations (or XO) is an experimental client library for interacting with cryptocurrency exchanges.
+  + It also comes with a simple exchange simulator.
+- The main interface is the `send!(session, operation)` function.
+- It gets overloaded a lot for different exchanges and their exchange operations (or API calls).
+- Every operation gets its own struct, so learning how to use this involves getting familiar with the available structs.
+- Every session will provide a `responses` channel where asynchronous responses from the exchange can be found.
+  + You can put an order in, but you don't know when the fill is going to happen if ever.
 
-- The main idea is to use structs to express the actions that are possible through an Exchange's API.
-  + Treat exchange operations as data.
-- There is a `send!(session, operation)` method that gets overloaded for different exchanges and their exchange operations (or API calls).
+Here's what it looks like to interact with a simulator exchange.
 
-## Goals
+```julia-repl
+julia> import ExchangeOperations as XO
 
-- The first exchange interface to be implemented in this style will be a simple simulator exchange.
-  + It'll only know how to do market-buy, market-sell, stop-market-buy, and stop-market-sell.
-  + It's just enough for backtesting simple strategies.
-  + It's deliberately dumb so that I could implement it easily.
-- If that goes well enough, the next exchange interface to be implemented will be for PancakeSwap.
-  + Let's give [Web3.jl](https://github.com/lambda-mechanics/Web3.jl) a spin.
+julia> session = XO.SimulatorSession() # set up a simulator session
 
+julia> session.state.price # current price of BTCUSD
+60000.0
+
+julia> XO.send!(session, XO.SimulatorMarketBuy(1.0)) # buy 1 BTC
+
+julia> XO.update!(session, now(), 100000.0) # pump the price of BTCUSD to 100000.0 in the simulator
+
+julia> XO.send!(session, XO.SimulatorMarketSell(0.5)) # sell 0.5 BTC
+
+julia> take!(session.responses)
+ExchangeOperations.SimulatorMarketBuyFill(DateTime("2024-12-16T10:28:16.638"), 60000.0, 1.0)
+
+julia> take!(session.responses)
+ExchangeOperations.SimulatorMarketSellFill(DateTime("2024-12-16T10:28:50.977"), 100000.0, 0.5)
+```
+
+Interacting with normal exchanges will look similar, but you'll be
+using exchange-specific types for the sessions and operations.  The
+first real exchange interface I plan to implement is for PancakeSwap,
+but as of v0.0.1, all you get is the super simple exchange simulator
+that only knows market orders.

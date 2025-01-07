@@ -5,6 +5,7 @@ version = "0.0.1"
 
 [deps]
 Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
+Decimals = "abce61dc-4473-55a0-ba07-351d65e31d42"
 DocStringExtensions = "ffbed154-4ef7-542d-bbb7-c09d3a79fcae"
 EnumX = "4e289a0a-7415-4d19-859d-a7e5c4648b56"
 HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
@@ -16,6 +17,7 @@ Web3 = "0881af41-a624-557c-96ff-9a730c8d7287"
 
 [compat]
 Dates = "1.11.0"
+Decimals = "0.5.0"
 DocStringExtensions = "0.9.3"
 EnumX = "1.0.4"
 HTTP = "1.10.11"

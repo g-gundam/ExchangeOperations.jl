@@ -1,4 +1,5 @@
 using Web3
+using Decimals
 
 # I'm conficted on whether I should name this PancakeSwap or ApolloX.
 # ApolloX is the group who actually built it.
@@ -12,26 +13,26 @@ using Web3
 end
 
 @kwdef struct PancakeSwapMarketLong <: AbstractOperation
-    amount::Float64
+    amount::Decimal
     currency::Any
 end
 
 @kwdef struct PancakeSwapMarketLongFill <: AbstractResponse
     ts::DateTime
-    price::Float64
-    amount::Float64
+    price::Decimal
+    amount::Decimal
     currency::Any
 end
 
 @kwdef struct PancakeSwapMarketShort <: AbstractOperation
-    amount::Float64
+    amount::Decimal
     currency::Any
 end
 
 @kwdef struct PancakeSwapMarketShortFill <: AbstractResponse
     ts::DateTime
-    price::Float64
-    amount::Float64
+    price::Decimal
+    amount::Decimal
     currency::Any
 end
 

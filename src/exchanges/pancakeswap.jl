@@ -6,6 +6,7 @@ using Decimals
 # PancakeSwap is just a a white-label branding on top of the ApolloX DEX.
 # They are the exact same exchange (literally) with 2 different names.
 # - Orders in one show up in the other.
+# https://apollox-finance.gitbook.io/apollox-finance/welcome/trading-on-v2/how-to-interact-directly-with-the-contract
 
 @kwdef mutable struct PancakeSwapSession <: AbstractSession
     responses::Channel = Channel{AbstractResponse}(16)

@@ -1,5 +1,6 @@
 using Web3
 using Decimals
+using FixedPointDecimals
 
 # I'm conficted on whether I should name this PancakeSwap or ApolloX.
 # ApolloX is the group who actually built it.

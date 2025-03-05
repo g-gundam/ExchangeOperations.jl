@@ -48,14 +48,30 @@ end
     price::Float64
     amount::Float64
 end
-# TODO: Ack
+
+# TODO: Make use of this.
+@kwdef struct SimulatorStopMarketBuyResponse <:  AbstractResponse
+    ts::DateTime
+    id::UUID
+    isaccepted::Bool
+    price::Float64
+    amount::Float64
+end
 
 @kwdef mutable struct SimulatorStopMarketSell <: AbstractOperation
     id::UUID = uuid4(RNG)
     price::Float64
     amount::Float64
 end
-# TODO: Ack
+
+# TODO: Make use of this.
+@kwdef struct SimulatorStopMarketSellResponse <:  AbstractResponse
+    ts::DateTime
+    id::UUID
+    isaccepted::Bool
+    price::Float64
+    amount::Float64
+end
 
 @kwdef struct SimulatorStopMarketUpdate <: AbstractOperation
     id::UUID

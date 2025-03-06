@@ -53,7 +53,7 @@ end
 @kwdef struct SimulatorStopMarketBuyResponse <:  AbstractResponse
     ts::DateTime
     id::UUID
-    isaccepted::Bool
+    iscreated::Bool
     price::Float64
     amount::Float64
 end
@@ -68,7 +68,7 @@ end
 @kwdef struct SimulatorStopMarketSellResponse <:  AbstractResponse
     ts::DateTime
     id::UUID
-    isaccepted::Bool
+    iscreated::Bool
     price::Float64
     amount::Float64
 end

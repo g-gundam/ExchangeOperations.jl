@@ -229,7 +229,7 @@ function send!(s::SimulatorSession, stopmarketbuy::SimulatorStopMarketBuy)
         id=stopmarketbuy.id,
         iscreated=true,
         price=stopmarketbuy.price,
-        amount=stopmarkettbuy.amount
+        amount=stopmarketbuy.amount
     )
     put!(s.responses, response)
     return s

@@ -224,6 +224,14 @@ end
 function send!(s::SimulatorSession, stopmarketbuy::SimulatorStopMarketBuy)
     # XXX: What are some sanity checks I should do first?
     push!(s.stops, stopmarketbuy)
+    response = SimulatorStopMarketBuyResponse(
+        ts=s.state.ts,
+        id=stopmarketbuy.id,
+        iscreated=true,
+        price=stopmarketbuy.price,
+        amount=stopmarkettbuy.amount
+    )
+    put!(s.responses, response)
     return s
 end
 

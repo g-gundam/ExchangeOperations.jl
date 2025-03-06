@@ -83,6 +83,12 @@ end
     id::UUID
 end
 
+@kwdef struct SimulatorStopMarketCancelResponse <: AbstractResponse
+    ts::DateTime
+    id::UUID
+    iscancelled::Bool
+end
+
 export SimulatorPosition
 export SimulatorState
 export SimulatorSession
@@ -268,7 +274,23 @@ end
 
 function send!(s::SimulatorSession, stopmarketcancel::SimulatorStopMarketCancel)
     id = stopmarketcancel.id
-    filter!(n -> n.id != id, s.stops)
+    matching = filter(n -> n.id == id, s.stops)
+    if length(matching) > 0
+        filter!(n -> n.id != id, s.stops)
+        response = SimulatorStopMarketCancelResponse(
+            ts=s.state.ts,
+            id=id,
+            iscancelled=true
+        )
+        put!(s.responses, response)
+    else
+        response = SimulatorStopMarketCancelResponse(
+            ts=s.state.ts,
+            id=id,
+            iscancelled=false
+        )
+        put!(s.responses, response)
+    end
     return s
 end
 

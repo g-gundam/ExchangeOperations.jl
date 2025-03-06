@@ -101,6 +101,8 @@ export SimulatorMarketSellFill
 """$(TYPEDSIGNATURES)
 
 Update the current time and current price of the asset in the simulator session.
+This also checks to see if stop orders should be triggered, and executes them if
+they should.
 """
 function update!(s::SimulatorSession, ts::DateTime, next_price::Float64)
     current_price = s.state.price
@@ -218,7 +220,7 @@ function trigger!(s::SimulatorSession, stopmarketbuy::SimulatorStopMarketBuy, cu
     return s
 end
 
-# sell gets triggered when price lowers to the stop.price
+# sell gets triggered when price descends to the stop.price
 function trigger!(s::SimulatorSession, stopmarketsell::SimulatorStopMarketSell, current_price::Float64, next_price::Float64)
     if current_price > stopmarketsell.price && next_price <= stopmarketsell.price
         marketsell = SimulatorMarketSell(amount=stopmarketsell.amount)

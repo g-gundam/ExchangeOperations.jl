@@ -3,16 +3,17 @@ module ApolloX
 # Docs:
 # https://apollox-finance.gitbook.io/apollox-finance/welcome/trading-on-v2/how-to-interact-directly-with-the-contract
 
-using ..ExchangeOperations # pull in exports from parent module
+using ..ExchangeOperations
+import ..ExchangeOperations as XO # pull in exports from parent module
 
 using Web3
 using Web3: UInt256
 
-@kwdef struct Session <: AbstractSession
+@kwdef struct Session <: XO.AbstractSession
     whatever::Any
 end
 
-@kwdef struct OpenMarketTrade
+@kwdef struct OpenMarketTrade <: XO.AbstractOperation
     address::Any # XXX find appropriate type for addresses
     is_long::Bool
     token_in::Any              # 1e10

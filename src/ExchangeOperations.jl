@@ -40,5 +40,6 @@ export send!
 
 include("exchanges/simulator.jl")
 include("exchanges/pancakeswap.jl")
+include("exchanges/apollox.jl")
 
 end

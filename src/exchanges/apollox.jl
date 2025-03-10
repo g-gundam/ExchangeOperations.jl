@@ -26,4 +26,7 @@ end
     broker::UInt256 = 1
 end
 
+function send!(s::Session, op::OpenMarketTrade)
+end
+
 end

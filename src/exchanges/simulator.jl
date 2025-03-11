@@ -305,3 +305,11 @@ function send!(x::SimulatorSession, op::AbstractOperation)
     @warn "unimplemented" message
     x
 end
+
+
+module Simulator
+
+using ..ExchangeOperations
+import ..ExchangeOperations as XO # pull in exports from parent module
+
+end

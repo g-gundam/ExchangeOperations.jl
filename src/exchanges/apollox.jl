@@ -26,6 +26,12 @@ end
     broker::UInt256 = 1
 end
 
+@kwdef struct UpdateTradeTPSL
+    trade_hash::String
+    take_profit_price::UInt256
+    stop_loss_price::UInt256
+end
+
 function send!(s::Session, op::OpenMarketTrade)
 end
 

@@ -32,6 +32,10 @@ end
     stop_loss_price::UInt256
 end
 
+@kwdef struct ClosePosition <: XO.AbstractOperation
+    trade_hash::String
+end
+
 function send!(s::Session, op::OpenMarketTrade)
 end
 

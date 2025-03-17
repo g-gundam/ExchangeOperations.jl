@@ -6,6 +6,7 @@ module ApolloX
 using ..ExchangeOperations
 import ..ExchangeOperations as XO # pull in exports from parent module
 
+using DateTime
 using Web3
 using Web3: UInt256
 
@@ -33,6 +34,11 @@ end
 end
 
 @kwdef struct ClosePosition <: XO.AbstractOperation
+    trade_hash::String
+end
+
+@kwdef struct ClosePositionResponse <: XO.AbstractResponse
+    responded_at::DateTime
     trade_hash::String
 end
 

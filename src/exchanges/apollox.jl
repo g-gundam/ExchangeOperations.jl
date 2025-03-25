@@ -6,7 +6,7 @@ module ApolloX
 using ..ExchangeOperations
 import ..ExchangeOperations as XO # pull in exports from parent module
 
-using DateTime
+using Dates
 using Web3
 using Web3: UInt256
 

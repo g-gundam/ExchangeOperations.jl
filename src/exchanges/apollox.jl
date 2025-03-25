@@ -33,6 +33,13 @@ end
     stop_loss_price::UInt256
 end
 
+@kwdef struct UpdateTradeTPSLResponse <: XO.AbstractResponse
+    ts::DateTime
+    trade_hash::String
+    take_profit_price::UInt256
+    stop_loss_price::UInt256
+end
+
 @kwdef struct ClosePosition <: XO.AbstractOperation
     trade_hash::String
 end

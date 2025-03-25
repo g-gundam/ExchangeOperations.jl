@@ -38,7 +38,7 @@ end
 end
 
 @kwdef struct ClosePositionResponse <: XO.AbstractResponse
-    responded_at::DateTime
+    ts::DateTime
     trade_hash::String
 end
 

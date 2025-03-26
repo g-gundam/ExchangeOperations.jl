@@ -27,6 +27,19 @@ end
     broker::UInt256 = 1
 end
 
+@kwdef struct OpenMarketTradeResponse <: XO.AbstractResponse
+    ts::DateTime
+    trade_hash::String
+    token_in::Any              # 1e10
+    amount_in::UInt256         # 1e8
+    # Limit Order: limit price
+    # Market Trade: worst price acceptable
+    price::UInt256             # 1e8
+    stop_loss::UInt256         # 1e8
+    take_profit::UInt256       # 1e8
+    broker::UInt256 = 1
+end
+
 @kwdef struct UpdateTradeTPSL
     trade_hash::String
     take_profit_price::UInt256

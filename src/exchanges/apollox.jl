@@ -65,4 +65,10 @@ end
 function send!(s::Session, op::OpenMarketTrade)
 end
 
+function send!(s::Session, op::UpdateTradeTPSL)
+end
+
+function send!(s::Session, op::ClosePosition)
+end
+
 end

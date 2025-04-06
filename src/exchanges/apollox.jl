@@ -62,13 +62,13 @@ end
     trade_hash::String
 end
 
-function send!(s::Session, op::OpenMarketTrade)
+function XO.send!(s::Session, op::OpenMarketTrade)
 end
 
-function send!(s::Session, op::UpdateTradeTPSL)
+function XO.send!(s::Session, op::UpdateTradeTPSL)
 end
 
-function send!(s::Session, op::ClosePosition)
+function XO.send!(s::Session, op::ClosePosition)
 end
 
 end

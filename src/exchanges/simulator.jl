@@ -23,6 +23,23 @@ end
     order_log::Vector{AbstractResponse} = []
 end
 
+# [2025-09-03 Wed 04:34] Mimic ApolloX's openMarketTrade function
+@kwdef struct SimulatorOpenMarketTrade <: AbstractSession
+    is_long::Bool
+    qty::Float64
+    price::Float64 # worst acceptable price
+    stop_loss::Float64
+    take_profit::Float64
+end
+
+# [2025-09-03 Wed 04:42] Also need to implement closeTrade(id)
+@kwdef struct SimulatorOpenMarketTradeFill <: AbstractSession
+    trade_hash::UUID
+    ts::DateTime
+    qty::Float64
+    price::Float64
+end
+
 @kwdef struct SimulatorMarketBuy <: AbstractOperation
     amount::Float64
 end

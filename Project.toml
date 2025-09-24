@@ -1,7 +1,7 @@
 name = "ExchangeOperations"
 uuid = "48bbcad9-ae6a-4618-9eec-9c3ca8e1b15b"
-authors = ["gg <gg@nowhere> and contributors"]
-version = "0.0.1"
+authors = ["gg"]
+version = "0.0.2"
 
 [deps]
 Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"

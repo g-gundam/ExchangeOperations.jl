@@ -1,7 +1,7 @@
 name = "ExchangeOperations"
 uuid = "48bbcad9-ae6a-4618-9eec-9c3ca8e1b15b"
-authors = ["gg"]
 version = "0.1.0"
+authors = ["gg"]
 
 [deps]
 Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
@@ -27,7 +27,7 @@ NanoDates = "1"
 Random = "1"
 TidyTest = "0.1"
 UUIDs = "1"
-Web3 = "0.2"
+Web3 = "0.2.2"
 julia = "1"
 
 [extras]

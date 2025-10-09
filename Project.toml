@@ -1,6 +1,6 @@
 name = "ExchangeOperations"
 uuid = "48bbcad9-ae6a-4618-9eec-9c3ca8e1b15b"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["gg"]
 
 [deps]

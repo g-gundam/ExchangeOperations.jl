@@ -3,6 +3,7 @@ module ApolloX
 # Docs:
 # https://apollox-finance.gitbook.io/apollox-finance/welcome/trading-on-v2/how-to-interact-directly-with-the-contract
 
+#=
 using ..ExchangeOperations
 import ..ExchangeOperations as XO # pull in exports from parent module
 
@@ -70,5 +71,6 @@ end
 
 function XO.send!(s::Session, op::ClosePosition)
 end
+=#
 
 end
